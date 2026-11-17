@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ import java.util.Locale;
 
 /**
  * Wehentracker: ein grosser Knopf. Tippen = Wehe beginnt, nochmal tippen = Wehe vorbei,
- * dann Staerke waehlen. Zeigt die letzten drei Wehen. Alles lokal gespeichert.
+ * dann Staerke waehlen. Zeigt alle Wehen des heutigen Tages. Alles lokal gespeichert.
  *
  * Zustand wird aus den gespeicherten Daten abgeleitet:
  *   runningStart > 0                      -> Wehe laeuft
@@ -69,6 +70,8 @@ public class MainActivity extends Activity {
     private TextView timerText;
     private LinearLayout mainArea;
     private LinearLayout listArea;
+    private ScrollView listScroll;
+    private TextView listHeader;
     private Button undoButton;
 
     @Override
@@ -203,7 +206,8 @@ public class MainActivity extends Activity {
         root.addView(mainArea, mp);
 
         TextView header = new TextView(this);
-        header.setText("Letzte Wehen");
+        listHeader = header;
+        header.setText("Heute");
         header.setTextColor(MUTED);
         header.setTextSize(15);
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
@@ -213,8 +217,11 @@ public class MainActivity extends Activity {
 
         listArea = new LinearLayout(this);
         listArea.setOrientation(LinearLayout.VERTICAL);
-        root.addView(listArea, new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        listScroll = new ScrollView(this);
+        listScroll.addView(listArea, new ScrollView.LayoutParams(
+                ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.WRAP_CONTENT));
+        root.addView(listScroll, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 2f));
 
         undoButton = new Button(this);
         undoButton.setAllCaps(false);
@@ -308,17 +315,23 @@ public class MainActivity extends Activity {
     private void renderList() {
         listArea.removeAllViews();
         int n = records.size();
-        if (n == 0) {
+        long dayStart = startOfToday();
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (records.get(i)[0] >= dayStart) count++;
+        }
+        listHeader.setText(count == 1 ? "Heute: 1 Wehe" : "Heute: " + count + " Wehen");
+        listScroll.scrollTo(0, 0);
+        if (count == 0) {
             TextView none = new TextView(this);
-            none.setText("Noch keine Wehe erfasst");
+            none.setText("Heute noch keine Wehe erfasst");
             none.setTextColor(MUTED);
             none.setTextSize(18);
             none.setPadding(0, dp(8), 0, dp(8));
             listArea.addView(none);
             return;
         }
-        for (int i = 0; i < 3 && i < n; i++) {
-            int idx = n - 1 - i;
+        for (int idx = n - 1; idx >= 0 && records.get(idx)[0] >= dayStart; idx--) {
             long[] r = records.get(idx);
 
             TextView line1 = new TextView(this);
@@ -349,6 +362,15 @@ public class MainActivity extends Activity {
     }
 
     // ---------- Formatierung ----------
+
+    private long startOfToday() {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTimeInMillis();
+    }
 
     /** Uhrzeit; mit Datum davor, falls nicht heute. */
     private String fmtClock(long t) {

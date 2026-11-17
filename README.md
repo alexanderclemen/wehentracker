@@ -12,7 +12,7 @@ Eine winzige Android-App zum Mitschreiben von Wehen. Ein großer Button, sonst n
 2. **„Wehe vorbei“** tippen, wenn sie vorbei ist.
 3. Stärke wählen: **Leicht**, **Mittel** oder **Stark**.
 
-Unter dem Button stehen die letzten drei Wehen mit Uhrzeit, Stärke, Dauer und Abstand zur vorherigen Wehe.
+Unter dem Button stehen alle Wehen des heutigen Tages, die neueste oben, jeweils mit Uhrzeit, Stärke, Dauer und Abstand zur vorherigen Wehe. Die Liste lässt sich scrollen. Ältere Tage bleiben gespeichert, werden aber nicht angezeigt.
 Mit dem kleinen Knopf unten lässt sich die letzte Wehe löschen (oder eine laufende verwerfen).
 
 Die App läuft komplett offline. Alle Daten bleiben auf dem Handy, es gibt keine Berechtigungen, keinen Server und keine Werbung.
@@ -44,7 +44,7 @@ Wer die App selbst weitergibt oder später aktualisieren will, muss denselben Sc
 - `src/home/wehentracker/MainActivity.java`: die gesamte App
 - `AndroidManifest.xml`, `res/`: Manifest und Icon
 - `tools/build.sh`: Build-Skript
-- `apk/Wehentracker.apk`: fertig gebaute Version 1.0
+- `apk/Wehentracker.apk`: fertig gebaute Version 1.1
 
 ## Lizenz
 

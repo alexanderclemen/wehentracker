@@ -14,7 +14,7 @@ rm -rf "$OUT" && mkdir -p "$OUT/classes"
 # 1. Ressourcen + Manifest -> unsigniertes APK
 aapt package -f -M "$SRC/AndroidManifest.xml" -S "$SRC/res" -I "$JAR" \
   --min-sdk-version 23 --target-sdk-version 34 \
-  --version-code 1 --version-name 1.0 -F "$OUT/unsigned.apk"
+  --version-code 2 --version-name 1.1 -F "$OUT/unsigned.apk"
 
 # 2. Java -> Klassen -> dex (keine Lambdas im Code, dx kann kein Desugaring)
 javac -source 8 -target 8 -Xlint:-options -bootclasspath "$JAR" -d "$OUT/classes" \
