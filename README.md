@@ -16,7 +16,7 @@ Das Display bleibt an, solange die App offen ist.
 
 ## Installieren (Android 6 oder neuer)
 
-1. Auf der Seite [Releases](../../releases/latest) die Datei **`Wehentracker.apk`** herunterladen.
+1. Die Datei [**Wehentracker.apk**](https://github.com/alexanderclemen/wehentracker/raw/main/apk/Wehentracker.apk) herunterladen (Link direkt auf dem Handy antippen).
 2. Datei auf dem Handy öffnen. Beim ersten Mal fragt Android, ob der Browser oder Dateimanager Apps installieren darf. Das einmalig erlauben.
 3. Installieren und die App „Wehentracker“ öffnen.
 
@@ -32,6 +32,7 @@ sudo apt install aapt apksigner zipalign android-sdk-platform-23 dalvik-exchange
 ```
 
 Das Ergebnis liegt in `build/wehentracker.apk`. Beim ersten Lauf wird ein eigener Signierschlüssel `release.keystore` erzeugt.
+Eine selbst gebaute APK hat deshalb eine andere Signatur als die fertige in `apk/`. Beide lassen sich nicht übereinander installieren, die ältere muss vorher deinstalliert werden.
 Wer die App selbst weitergibt oder später aktualisieren will, muss denselben Schlüssel behalten, sonst lässt sich ein Update nicht über die alte Version installieren.
 
 ## Aufbau
@@ -39,6 +40,7 @@ Wer die App selbst weitergibt oder später aktualisieren will, muss denselben Sc
 - `src/home/wehentracker/MainActivity.java`: die gesamte App
 - `AndroidManifest.xml`, `res/`: Manifest und Icon
 - `tools/build.sh`: Build-Skript
+- `apk/Wehentracker.apk`: fertig gebaute Version 1.0
 
 ## Lizenz
 
