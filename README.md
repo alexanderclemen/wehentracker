@@ -2,6 +2,10 @@
 
 Eine winzige Android-App zum Mitschreiben von Wehen. Ein großer Button, sonst nichts.
 
+![Die drei Ansichten der App: Bereit, Wehe läuft, Stärke wählen](docs/screens.png)
+
+*Schematische Darstellung mit Beispielwerten.*
+
 ## Bedienung
 
 1. **„Wehe beginnt“** tippen, wenn die Wehe anfängt. Ein Timer läuft mit.
